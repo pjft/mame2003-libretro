@@ -61,7 +61,7 @@ else ifeq ($(platform), wii)
     
    CC = $(DEVKITPPC)/bin/powerpc-eabi-gcc$(EXE_EXT)
    AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
-   PLATCFLAGS += -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float -D__ppc__ -D__POWERPC__ -Dstricmp=strcasecmp
+   PLATCFLAGS += -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float -D__ppc__ -D__POWERPC__ -Dstricmp=strcasecmp -I$(DEVKITPRO)/portlibs/ppc/include
 else ifeq ($(platform), ps3)
    EMULATOR = $(TARGET_NAME)_libretro_ps3.a
    BIGENDIAN = 1

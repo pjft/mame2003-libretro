@@ -87,6 +87,7 @@ const struct GameDriver *test_drivers[] =
 
 #else	/* DRIVER_RECURSIVE */
 
+#if 0
 
 	/* "Pacman hardware" games */
 	DRIVER( puckman )	/* (c) 1980 Namco */
@@ -4337,6 +4338,8 @@ BOMULEUL CHAJARA SEGA ST-V  1997/04/11
 	DRIVER( quizdna )	/* (c) 1992 Face */
 	DRIVER( gekiretu )	/* (c) 1992 Face */
 
+#endif
+
 	/* Williams/Midway games */
 	DRIVER( narc )		/* (c) 1988 Williams */
 	DRIVER( narc3 )		/* (c) 1988 Williams */
@@ -4398,6 +4401,8 @@ BOMULEUL CHAJARA SEGA ST-V  1997/04/11
 	DRIVER( crusnw13 )	/* (c) 1996 Midway */
 	DRIVER( offroadc )	/* (c) 1997 Midway */
 	DRIVER( wargods )	/* (c) 1996 Midway */
+
+#if 0
 
 	/* Midway / Atari  Voodoo based Hardware (Seattle, Flagstaff) */
 	DRIVER ( wg3dh )	/* (c) 1996 Atari Games */
@@ -5565,6 +5570,7 @@ Other Sun games
 	DRIVER( bangbead )	/* 0259 (c) 2000 Visco */
 	DRIVER( nitd )		/* 0260 (c) 2000 Eleven / Gavaking */
 
+#endif
 
 #endif	/* DRIVER_RECURSIVE */
 
