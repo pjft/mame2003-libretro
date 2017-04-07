@@ -419,7 +419,147 @@ static void dec0_pf3_update(void)
 
 /******************************************************************************/
 
-static void dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
+/*** BEGINNING OF BACKPORTED CODE ***/
+/******************************************************************************/
+
+static void custom_tilemap_draw(struct mame_bitmap *bitmap,
+								const struct rectangle *cliprect,
+								tilemap *tilemap_ptr,
+								const data16_t *rowscroll_ptr,
+								const data16_t *colscroll_ptr,
+								const data16_t *control0,
+								const data16_t *control1,
+								int flags)
+{
+	const struct mame_bitmap *src_bitmap = tilemap_get_pixmap(tilemap_ptr);
+	int x, y, p;
+	int column_offset=0, src_x=0, src_y=0;
+	unsigned int scrollx=control1[0];
+	unsigned int scrolly=control1[1];
+	int width_mask = src_bitmap->width - 1;
+	int height_mask = src_bitmap->height - 1;
+	int row_scroll_enabled = (rowscroll_ptr && (control0[0]&0x4));
+	int col_scroll_enabled = (colscroll_ptr && (control0[0]&0x8));
+
+	if (!src_bitmap)
+		return;
+
+	/* Column scroll & row scroll may per applied per pixel, there are
+    shift registers for each which control the granularity of the row/col
+    offset (down to per line level for row, and per 8 lines for column).
+
+    Nb:  The row & col selectors are _not_ affected by the shape of the
+    playfield (ie, 256*1024, 512*512 or 1024*256).  So even if the tilemap
+    width is only 256, 'src_x' should not wrap at 256 in the code below (to
+    do so would mean the top half of row RAM would never be accessed which
+    is incorrect).
+
+    Nb2:  Real hardware exhibits a strange bug with column scroll on 'mode 2'
+    (256*1024) - the first column has a strange additional offset, but
+    curiously the first 'wrap' (at scroll offset 256) does not have this offset,
+    it is displayed as expected.  The bug is confimed to only affect this mode,
+    the other two modes work as expected.  This bug is not emulated, as it
+    doesn't affect any games.
+    */
+
+	if (flip_screen)
+		src_y = (src_bitmap->height - 256) - scrolly;
+	else
+		src_y = scrolly;
+
+	for (y=0; y<=cliprect->max_y; y++) {
+		if (row_scroll_enabled)
+			src_x=scrollx + rowscroll_ptr[(src_y >> (control1[3]&0xf))&(0x1ff>>(control1[3]&0xf))];
+		else
+			src_x=scrollx;
+
+		if (flip_screen)
+			src_x=(src_bitmap->width - 256) - src_x;
+
+		for (x=0; x<=cliprect->max_x; x++) {
+			if (col_scroll_enabled)
+				column_offset=colscroll_ptr[((src_x >> 3) >> (control1[2]&0xf))&(0x3f>>(control1[2]&0xf))];
+
+			p = (((UINT16*)src_bitmap->line[(src_y + column_offset)&height_mask])[src_x&width_mask]);
+
+			src_x++;
+			if ((flags&TILEMAP_IGNORE_TRANSPARENCY) || (p&0xf))
+			{
+				if( flags & TILEMAP_FRONT )
+				{
+					/* Top 8 pens of top 8 palettes only */
+					if ((p&0x88)==0x88)
+						plot_pixel(bitmap, x, y, Machine->pens[p]);
+				}
+				else
+				{
+					plot_pixel(bitmap, x, y, Machine->pens[p]);
+				}
+			}
+		}
+		src_y++;
+	}
+}
+
+/******************************************************************************/
+
+static void dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
+{
+	switch (dec0_pf1_control_0[3]&0x3) {
+		case 0:	/* 4x1 */
+			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_0,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
+			break;
+		case 1:	/* 2x2 */
+		default:
+			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_1,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
+			break;
+		case 2:	/* 1x4 */
+			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_2,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
+			break;
+	};
+}
+
+static void dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
+{
+	switch (dec0_pf2_control_0[3]&0x3) {
+		case 0:	/* 4x1 */
+			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_0,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
+			break;
+		case 1:	/* 2x2 */
+		default:
+			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_1,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
+			break;
+		case 2:	/* 1x4 */
+			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_2,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
+			break;
+	};
+}
+
+static void dec0_pf3_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
+{
+	switch (dec0_pf3_control_0[3]&0x3) {
+		case 0:	/* 4x1 */
+			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_0,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
+			break;
+		case 1:	/* 2x2 */
+		default:
+			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_1,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
+			break;
+		case 2:	/* 1x4 */
+			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_2,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
+			break;
+	};
+}
+
+/*** END OF BACKPORTED CODE ***/
+
+
+
+
+
+
+
+static void old_dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
 {
 	tilemap_set_enable(pf1_tilemap_0,0);
 	tilemap_set_enable(pf1_tilemap_1,0);
@@ -442,7 +582,7 @@ static void dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cli
 	}
 }
 
-static void dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
+static void old_dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
 {
 	tilemap_set_enable(pf2_tilemap_0,0);
 	tilemap_set_enable(pf2_tilemap_1,0);
@@ -465,7 +605,7 @@ static void dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cli
 	}
 }
 
-static void dec0_pf3_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
+static void old_dec0_pf3_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags,int pri)
 {
 	tilemap_set_enable(pf3_tilemap_0,0);
 	tilemap_set_enable(pf3_tilemap_1,0);
