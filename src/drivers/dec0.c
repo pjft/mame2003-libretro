@@ -869,7 +869,7 @@ static struct YM3812interface ym3812b_interface =
 static struct OKIM6295interface okim6295_interface =
 {
 	1,                  /* 1 chip */
-	{ 7757 },           /* 8000Hz frequency */
+	{ 1000 },           /* 1000Hz frequency - backport*/
 	{ REGION_SOUND1 },	/* memory region */
 	{ 80 }
 };
@@ -977,7 +977,7 @@ static MACHINE_DRIVER_START( robocop )
 	MDRV_CPU_FLAGS(CPU_AUDIO_CPU)
 	MDRV_CPU_MEMORY(dec0_s_readmem,dec0_s_writemem)
 
-	MDRV_CPU_ADD(H6280,21477200/16) /* 21.4772MHz clock */
+	MDRV_CPU_ADD(H6280,21477272/16) /* 21.4772MHz clock */
 	MDRV_CPU_MEMORY(robocop_sub_readmem,robocop_sub_writemem)
 
 	MDRV_FRAMES_PER_SECOND(57.41)
@@ -1041,7 +1041,7 @@ static MACHINE_DRIVER_START( hippodrm )
 	MDRV_CPU_FLAGS(CPU_AUDIO_CPU)
 	MDRV_CPU_MEMORY(dec0_s_readmem,dec0_s_writemem)
 
-	MDRV_CPU_ADD(H6280,21477200/16) /* 21.4772MHz clock */
+	MDRV_CPU_ADD(H6280,21477272/16) /* 21.4772MHz clock */
 	MDRV_CPU_MEMORY(hippodrm_sub_readmem,hippodrm_sub_writemem)
 
 	MDRV_FRAMES_PER_SECOND(57.41)
@@ -1067,11 +1067,11 @@ MACHINE_DRIVER_END
 static MACHINE_DRIVER_START( slyspy )
 
 	/* basic machine hardware */
-	MDRV_CPU_ADD(M68000, 12000000)
+	MDRV_CPU_ADD(M68000, 10000000)
 	MDRV_CPU_MEMORY(slyspy_readmem,slyspy_writemem)
 	MDRV_CPU_VBLANK_INT(irq6_line_hold,1)/* VBL */
 
-	MDRV_CPU_ADD(H6280, 3000000)
+	MDRV_CPU_ADD(H6280, 2000000)
 	MDRV_CPU_FLAGS(CPU_AUDIO_CPU)
 	MDRV_CPU_MEMORY(slyspy_s_readmem,slyspy_s_writemem)
 
