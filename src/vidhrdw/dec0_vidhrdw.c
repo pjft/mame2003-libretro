@@ -505,15 +505,22 @@ static void custom_tilemap_draw(struct mame_bitmap *bitmap,
 
 static void dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
 {
+	tilemap_set_enable(pf1_tilemap_0,0);
+	tilemap_set_enable(pf1_tilemap_1,0);
+	tilemap_set_enable(pf1_tilemap_2,0);
+
 	switch (dec0_pf1_control_0[3]&0x3) {
 		case 0:	/* 4x1 */
+			tilemap_set_enable(pf1_tilemap_0,1);
 			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_0,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
 			break;
 		case 1:	/* 2x2 */
 		default:
+			tilemap_set_enable(pf1_tilemap_1,1);
 			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_1,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
 			break;
 		case 2:	/* 1x4 */
+			tilemap_set_enable(pf1_tilemap_1,1);
 			custom_tilemap_draw(bitmap,cliprect,pf1_tilemap_2,dec0_pf1_rowscroll,dec0_pf1_colscroll,dec0_pf1_control_0,dec0_pf1_control_1,flags);
 			break;
 	};
@@ -521,15 +528,22 @@ static void dec0_pf1_draw(struct mame_bitmap *bitmap,const struct rectangle *cli
 
 static void dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
 {
+	tilemap_set_enable(pf2_tilemap_0,0);
+	tilemap_set_enable(pf2_tilemap_1,0);
+	tilemap_set_enable(pf2_tilemap_2,0);
+
 	switch (dec0_pf2_control_0[3]&0x3) {
 		case 0:	/* 4x1 */
+			tilemap_set_enable(pf2_tilemap_0,1);
 			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_0,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
 			break;
 		case 1:	/* 2x2 */
 		default:
+			tilemap_set_enable(pf2_tilemap_1,1);
 			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_1,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
 			break;
 		case 2:	/* 1x4 */
+			tilemap_set_enable(pf2_tilemap_2,1);
 			custom_tilemap_draw(bitmap,cliprect,pf2_tilemap_2,dec0_pf2_rowscroll,dec0_pf2_colscroll,dec0_pf2_control_0,dec0_pf2_control_1,flags);
 			break;
 	};
@@ -537,15 +551,22 @@ static void dec0_pf2_draw(struct mame_bitmap *bitmap,const struct rectangle *cli
 
 static void dec0_pf3_draw(struct mame_bitmap *bitmap,const struct rectangle *cliprect,int flags, int pri)
 {
+	tilemap_set_enable(pf3_tilemap_0,0);
+	tilemap_set_enable(pf3_tilemap_1,0);
+	tilemap_set_enable(pf3_tilemap_2,0);
+
 	switch (dec0_pf3_control_0[3]&0x3) {
 		case 0:	/* 4x1 */
+			tilemap_set_enable(pf3_tilemap_0,1);
 			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_0,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
 			break;
 		case 1:	/* 2x2 */
 		default:
+			tilemap_set_enable(pf3_tilemap_1,1);
 			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_1,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
 			break;
 		case 2:	/* 1x4 */
+			tilemap_set_enable(pf3_tilemap_2,1);
 			custom_tilemap_draw(bitmap,cliprect,pf3_tilemap_2,dec0_pf3_rowscroll,dec0_pf3_colscroll,dec0_pf3_control_0,dec0_pf3_control_1,flags);
 			break;
 	};
