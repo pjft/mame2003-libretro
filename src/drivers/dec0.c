@@ -869,7 +869,7 @@ static struct YM3812interface ym3812b_interface =
 static struct OKIM6295interface okim6295_interface =
 {
 	1,                  /* 1 chip */
-	{ 7757 },           /* 1000Hz frequency - backport */
+	{ 7576 },           /* 1000Hz frequency - backport */
 	{ REGION_SOUND1 },	/* memory region */
 	{ 80 }
 };
