@@ -1101,7 +1101,7 @@ static MACHINE_DRIVER_START( midres )
 	MDRV_CPU_MEMORY(midres_readmem,midres_writemem)
 	MDRV_CPU_VBLANK_INT(irq6_line_hold,1)/* VBL */
 
-	MDRV_CPU_ADD(H6280, 3000000)
+	MDRV_CPU_ADD(H6280, 2000000)
 	MDRV_CPU_FLAGS(CPU_AUDIO_CPU)
 	MDRV_CPU_MEMORY(midres_s_readmem,midres_s_writemem)
 
