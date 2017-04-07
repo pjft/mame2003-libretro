@@ -424,7 +424,7 @@ static void dec0_pf3_update(void)
 
 static void custom_tilemap_draw(struct mame_bitmap *bitmap,
 								const struct rectangle *cliprect,
-								tilemap *tilemap_ptr,
+								struct tilemap *tilemap_ptr,
 								const data16_t *rowscroll_ptr,
 								const data16_t *colscroll_ptr,
 								const data16_t *control0,
