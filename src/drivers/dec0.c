@@ -1097,7 +1097,7 @@ MACHINE_DRIVER_END
 static MACHINE_DRIVER_START( midres )
 
 	/* basic machine hardware */
-	MDRV_CPU_ADD(M68000, 12000000)
+	MDRV_CPU_ADD(M68000, 10000000)
 	MDRV_CPU_MEMORY(midres_readmem,midres_writemem)
 	MDRV_CPU_VBLANK_INT(irq6_line_hold,1)/* VBL */
 
