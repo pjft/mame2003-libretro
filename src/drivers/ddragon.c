@@ -862,7 +862,8 @@ static struct YM2151interface ym2151_interface =
 static struct MSM5205interface msm5205_interface =
 {
 	2,					/* 2 chips             */
-	384000,				/* 384KHz             */
+	//384000,				/* 384KHz             */
+	375000,				/* 384KHz             */
 	{ dd_adpcm_int, dd_adpcm_int },/* interrupt function */
 	{ MSM5205_S48_4B, MSM5205_S48_4B },	/* 8kHz */
 	{ 40, 40 }				/* volume */
@@ -899,14 +900,17 @@ static INTERRUPT_GEN( ddragon_interrupt )
 static MACHINE_DRIVER_START( ddragon )
 
 	/* basic machine hardware */
- 	MDRV_CPU_ADD(HD6309, 3579545)	/* 3.579545 MHz */
+ 	//MDRV_CPU_ADD(HD6309, 3579545)	/* 3.579545 MHz */
+	MDRV_CPU_ADD(HD6309, 12000000)
 	MDRV_CPU_MEMORY(readmem,writemem)
 	MDRV_CPU_VBLANK_INT(ddragon_interrupt,272)
 
-	MDRV_CPU_ADD(HD63701, 3579545 / 3) /* This divider seems correct by comparison to real board */
+	//MDRV_CPU_ADD(HD63701, 3579545 / 3) /* This divider seems correct by comparison to real board */
+	MDRV_CPU_ADD(HD63701, 6000000)
 	MDRV_CPU_MEMORY(sub_readmem,sub_writemem)
 
- 	MDRV_CPU_ADD(HD6309, 3579545)
+ 	//MDRV_CPU_ADD(M6809, 3579545)
+ 	MDRV_CPU_ADD(M6809, 6000000)
  	MDRV_CPU_FLAGS(CPU_AUDIO_CPU)
 	MDRV_CPU_MEMORY(sound_readmem,sound_writemem)
 
